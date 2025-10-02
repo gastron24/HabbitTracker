@@ -1,0 +1,7 @@
+﻿services:
+  habbittracker:
+    image: habbittracker
+    build:
+      context: .
+      dockerfile: HabbitTracker/Dockerfile
+
