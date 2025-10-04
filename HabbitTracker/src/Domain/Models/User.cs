@@ -9,14 +9,11 @@ public class User
     [Key]
     public int Id { get; set; }
     [Required]
-    [StringLength(25), MinLength(2)]
+    [StringLength(30, MinimumLength = 2, ErrorMessage = "Имя должно быть от 2 до 30 символов")]
     public string FirstName { get; set; } = string.Empty;
     [Required]
-    [StringLength(25), MinLength(2)]
-    public string LastName { get; set; } = string.Empty; 
-    [Required]
     [EmailAddress]
-    [StringLength(50), MinLength(3)]
+    [StringLength(50, MinimumLength = 2, ErrorMessage = "Email должен быть от 2 до 50 символов")]
     public string Email { get; set; } = string.Empty;
     [Required]
     [StringLength(256)]

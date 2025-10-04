@@ -14,7 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="src\Application\" />
       <Folder Include="src\Dto\" />
       <Folder Include="src\Infrastructure\" />
     </ItemGroup>

@@ -7,5 +7,5 @@ public class Db : DbContext
 {
   public DbSet<User> Users { get; set; } =  null!;
   
-  public Db(DbContextOptions<Db> options) : base(options) { }
+  
 }
