@@ -8,6 +8,7 @@ public class User
 {
     [Key]
     public int Id { get; set; }
+    public List<Habbit> Habits { get; set; } = new();
     [Required]
     [StringLength(30, MinimumLength = 2, ErrorMessage = "Имя должно быть от 2 до 30 символов")]
     public string FirstName { get; set; } = string.Empty;
