@@ -29,6 +29,7 @@ public class LoginController : ControllerBase
         {
             return Unauthorized(ex.Message);
         }
+    }
 
 
     public class LoginRequest
@@ -36,5 +37,5 @@ public class LoginController : ControllerBase
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
     }
-    }
+    
 }

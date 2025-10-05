@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DevOne.Security.Cryptography.BCrypt;
 using HabbitTracker.Data;
 using HabbitTracker.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +12,12 @@ namespace HabbitTracker.Services.Services;
 public class UserAuthService : IUserAuthService
 {
     private readonly Db _context;
-    private readonly string _jwtSecret = "super-secret-key-for-dev-only-12345"; 
+    private readonly string _jwtSecret; 
 
-    public UserAuthService(Db context)
+    public UserAuthService(Db context, IConfiguration configuration)
     {
         _context = context;
+        _jwtSecret = configuration["Jwt:Secret"] ?? "super-secret-key-for-dev-only-12345" ; 
     }
 
     public async Task<JwtSecurityToken> Authenticate(string email, string password)
@@ -24,7 +26,7 @@ public class UserAuthService : IUserAuthService
         if (user == null) 
             throw new Exception("Пользователь не найден");
         
-        if (password != "123456") 
+        if (BCrypt.Net.BCrypt.Verify(password, user.HashedPassword)) 
             throw new Exception("Неверный пароль");
 
         var claims = new[]
@@ -41,7 +43,7 @@ public class UserAuthService : IUserAuthService
             issuer: "HabitTracker",
             audience: "HabitTracker",
             claims: claims,
-            expires: DateTime.Now.AddHours(2),
+            expires: DateTime.UtcNow.AddHours(2),
             signingCredentials: creds
         );
     }
