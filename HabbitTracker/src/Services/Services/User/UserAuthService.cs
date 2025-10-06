@@ -1,34 +1,37 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using DevOne.Security.Cryptography.BCrypt;
+using BCrypt.Net;
 using HabbitTracker.Data;
+using HabbitTracker.Domain.Models;
 using HabbitTracker.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HabbitTracker.Services.Services;
 
 public class UserAuthService : IUserAuthService
 {
     private readonly Db _context;
-    private readonly string _jwtSecret; 
-
+    private readonly string _jwtSecret;
+    
     public UserAuthService(Db context, IConfiguration configuration)
     {
         _context = context;
-        _jwtSecret = configuration["Jwt:Secret"] ?? "super-secret-key-for-dev-only-12345" ; 
+        _jwtSecret = configuration["Jwt:Secret"] ?? "super-secret-key-for-dev-only-12345";
     }
 
     public async Task<JwtSecurityToken> Authenticate(string email, string password)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-        if (user == null) 
+        if (user == null)
             throw new Exception("Пользователь не найден");
+
         
-        if (BCrypt.Net.BCrypt.Verify(password, user.HashedPassword)) 
+        if (!BCrypt.Net.BCrypt.Verify(password, user.HashedPassword))
             throw new Exception("Неверный пароль");
 
+        
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

@@ -1,11 +1,8 @@
-using System.Runtime.InteropServices.JavaScript;
 using HabbitTracker.Data;
 using HabbitTracker.Dto;
 using HabbitTracker.Services.Interfaces.Admin;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace HabbitTracker.Services.Services.Admin;
 
@@ -17,13 +14,19 @@ public class AdminPanel : IAdminPanel
     {
         _db = db;
     }
-
-    public async Task<IActionResult> CheckAdminId(AdminPanelDto dto)
+    public async Task<IActionResult> GetAllUser()
     {
-        if (dto.Role != "Admin")
-            return NotFound("Роль");
+        
+        return new OkObjectResult("Список пользователей (заглушка)");
+    }
 
-        if (dto.Role == "Admin")
-            return Accepted();
+    public async Task<IActionResult> BanUser(BanUserRequestDto dto)
+    {
+        return new OkObjectResult("Пользователь забанен (заглушка)");
+    }
+
+    public async Task<IActionResult> ChangeRoleUser(ChangeRoleRequestDto dto)
+    {
+        return new OkObjectResult("Роль изменена (заглушка)");
     }
 }

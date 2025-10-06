@@ -1,7 +1,9 @@
 using System.Text;
 using HabbitTracker.Data;
 using HabbitTracker.Services.Interfaces;
+using HabbitTracker.Services.Interfaces.Admin;
 using HabbitTracker.Services.Services;
+using HabbitTracker.Services.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<Db>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
+builder.Services.AddScoped<IAdminPanel,  AdminPanel>();
 
 var jwtSecret = builder.Configuration["Jwt:Secret"] 
                 ?? "super-secret-key-for-dev-only-12345";

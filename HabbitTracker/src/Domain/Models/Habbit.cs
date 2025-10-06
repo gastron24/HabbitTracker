@@ -5,6 +5,10 @@ namespace HabbitTracker.Domain.Models;
 public class Habbit
 {
     [Required]
+    [StringLength(maximumLength: 30, MinimumLength = 6, ErrorMessage = ("Пароль от 6 - до 30 символов"))]
+    public int Id { get; set; }
+    
+    [Required]
     [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "Название от 2 - до 50 символов")]
     public string Name { get; set; } = string.Empty;
    
