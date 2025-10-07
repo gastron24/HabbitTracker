@@ -14,6 +14,7 @@ builder.Services.AddDbContext<Db>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
 builder.Services.AddScoped<IAdminPanel,  AdminPanel>();
+builder.Services.AddScoped<IUserPanel, UserPanelService>();
 
 var jwtSecret = builder.Configuration["Jwt:Secret"] 
                 ?? "super-secret-key-for-dev-only-12345";
